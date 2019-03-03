@@ -6,17 +6,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {getInfo} from '@/api/hostInfo'
 
 export default {
   name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name',
-      'roles'
-    ])
+  data(){
+    return {
+          name : "hello",
+          roles : 'roles'
+      }
   }
+  ,created() {
+      getInfo().then(res => {
+          const d = res.data
+
+          if (d.errcode) {
+            alert(d.errmsg)
+          } else {
+            this.name = d.name
+            this.roles= d.roles
+            console.log(d)
+          }
+        })
+  }
+
 }
+
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
